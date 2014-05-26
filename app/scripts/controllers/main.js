@@ -8,7 +8,6 @@ angular.module('statusToolApp')
     var selectedIndex;
     var feed;
     var blacklist = [
-      'abc'
     ];
 
     $scope.projects = ProjectService.getProjects();
