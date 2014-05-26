@@ -1,0 +1,50 @@
+<div class="wrap">
+  <div class="header" id="header">
+    <h3>{{ teamName }}
+    <span class="dropdown"><span class="dropdown-toggle" data-toggle="dropdown" id="projectList" ><i class="caret"></i></span>
+    <span ng-if="isViewLoading"><img src="images/loading.gif"/></span>
+    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="projectList">
+      <li ng-repeat="project in projects">
+        <span ng-class="{starred: project.isStarred}" ng-click="toggleStar(project)" class="glyphicon glyphicon-star star"></span>
+        <span class="name" ng-click="changeProject(project.name)">{{ project.name }}</span>
+      </li>
+    </ul>
+    </span>
+    <span class="pull-right small text-muted hidden-xs">Weekly Status Report</span>
+    <span class="pull-right small dates text-muted hidden-xs">{{ dates.start }} - {{ dates.end }}</span></h3>
+
+  </div>
+
+  <div class="main row">
+  <div class="images-top">
+    <div  ng-repeat="image in images" class="image-thumb-top-wrap">
+      <img class="image-thumb-top" src="{{ image.link }}" ng-click="gotoItem(image.user)"/>
+    </div>
+  </div>
+  <div class="col-md-3 hidden-sm hidden-xs" id="author-nav" ng-if="feed.length">
+    <ul class="nav affix">
+      <li ng-repeat="item in feed" ng-class="{isRecent: item.isRecent}">
+        <a href="#{{item.username}}" data-index="{{$index}}" eat-click ng-click="gotoItem(item.username)" du-scrollspy>{{ item.firstname }}</a>
+      </li>
+      <hr/>
+      <li class="isRecent legend"><a>Updated within 7 days</a></li>
+      <li class="text-muted" ng-if="feedIsRecent"><a>Only updates from the last month are shown.</a></li>
+      <li class="text-muted"><a>Use ↑ and ↓ to navigate.</a></li>
+    </ul>
+  </div>
+  <div class="col-md-9 updates">
+    <div ng-repeat="item in feed" class="item" id="{{item.username}}">
+      <h4><img class="avatar" src="https://avatars.io/email/{{ item.author }}" /><span class="name">{{ item.fullname }}</span> <small class="pull-right"><span class="glyphicon glyphicon-time"></span> {{ item.date }}</small></h4>
+      <div ng-bind-html="item.description" class="itemContent" ng-class="{isRecent: item.isRecent}"></div>
+      <br/>
+      <h6 ng-if="item.images.length" class="text-muted">IMAGES</h6>
+      <div class="image-thumbnail" ng-repeat="link in item.images">
+        <a href="{{ link.link }}"><img src="{{ link.link }}"/></a>
+      </div>
+    </div>
+    <div ng-if="!feed.length" class="loading-message">
+      <p class="primary">Hold tight...</p>
+    </div>
+  </div>
+  </div>
+</div>
